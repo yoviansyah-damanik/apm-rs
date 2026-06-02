@@ -1,0 +1,272 @@
+@import "tailwindcss";
+@import "../../vendor/livewire/flux/dist/flux.css";
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-content: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-white);
+
+    /* Brand Primary (hijau) */
+    /* --color-primary-50:  #f0fdf4;
+    --color-primary-100: #dcfce7;
+    --color-primary-200: #bbf7d0;
+    --color-primary-300: #86efac;
+    --color-primary-400: #4ade80;
+    --color-primary-500: #22c55e;
+    --color-primary-600: #16a34a;
+    --color-primary-700: #15803d;
+    --color-primary-800: #166534;
+    --color-primary-900: #14532d;
+    --color-primary-950: #052e16; */
+
+    --color-primary-50: #f3f7fc;
+    --color-primary-100: #e5edf9;
+    --color-primary-200: #c5daf2;
+    --color-primary-300: #92bce7;
+    --color-primary-400: #589ad8;
+    --color-primary-500: #337dc4;
+    --color-primary-600: #2362a6;
+    --color-primary-700: #1c4a7f;
+    --color-primary-800: #1c4370;
+    --color-primary-900: #1d3a5d;
+    --color-primary-950: #13253e;
+
+    /* Brand Secondary (kuning) */
+    --color-secondary-50: #fffde0;
+    --color-secondary-100: #fffaab;
+    --color-secondary-200: #fff86b;
+    --color-secondary-300: #fff700;
+    --color-secondary-400: #e6de00;
+    --color-secondary-500: #ccc600;
+    --color-secondary-600: #b3ae00;
+    --color-secondary-700: #807d00;
+    --color-secondary-800: #4d4b00;
+    --color-secondary-900: #1a1a00;
+    --color-secondary-950: #0d0d00;
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--color-white);
+        --color-accent-content: var(--color-white);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */
+
+/* LivewireAlert tampil di depan Flux Modal */
+div:where(.swal2-container) {
+    z-index: 999999 !important;
+}
+
+/* Pastikan swal2 popup juga di z-index tertinggi */
+.swal2-popup {
+    z-index: 999999 !important;
+}
+
+/* Turunkan z-index Flux Modal (ui-modal dan dialog) agar tidak menutupi LivewireAlert */
+ui-modal,
+[data-flux-modal] {
+    z-index: 9998 !important;
+}
+
+dialog,
+[data-flux-modal] > dialog {
+    z-index: 9999 !important;
+}
+
+dialog::backdrop,
+[data-flux-modal] > dialog::backdrop {
+    z-index: 9997 !important;
+}
+
+/* Biometric fade-in animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+}
+
+/* Sembunyikan scrollbar untuk semua elemen dengan overflow-auto */
+*::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Untuk Firefox */
+* {
+    scrollbar-width: none;
+}
+
+/* Untuk Internet Explorer dan Edge */
+* {
+    -ms-overflow-style: none;
+}
+
+/*
+ * ============================================================
+ * CONSOLE-BOX BACKGROUND OVERLAY
+ * ============================================================
+ * Cara pakai di blade:
+ *   <body class="bg-overlay bg-overlay-3" style="--bg-img: url('...')">
+ *
+ * Ganti angka kelas (bg-overlay-1 s/d bg-overlay-6) untuk memilih variasi.
+ *
+ * primary-950 = #13253e | primary-900 = #1d3a5d
+ * primary-800 = #1c4370 | primary-700 = #1c4a7f
+ * secondary-300 = #fff700
+ * ============================================================
+ */
+
+.bg-overlay {
+    background: var(--overlay), var(--bg-img) center / cover no-repeat;
+}
+
+/* [1] Aurora — multi-layer diagonal, glow navy + sentuhan kuning organik */
+.bg-overlay-1 {
+    --overlay:
+        radial-gradient(ellipse at 25% 35%, rgba(255, 247, 0, 0.07) 0%, transparent 48%),
+        radial-gradient(ellipse at 75% 65%, rgba(28, 74, 127, 0.22) 0%, transparent 48%),
+        linear-gradient(155deg,
+            rgba(19, 37, 62, 0.95) 0%,
+            rgba(28, 67, 112, 0.68) 40%,
+            rgba(28, 74, 127, 0.55) 60%,
+            rgba(19, 37, 62, 0.93) 100%
+        );
+}
+
+/* [2] Deep Cosmos — vignette pekat + sinar biru dari pusat */
+.bg-overlay-2 {
+    --overlay:
+        radial-gradient(ellipse at 50% 48%,
+            rgba(28, 74, 127, 0.60) 0%,
+            rgba(19, 37, 62, 0.72) 38%,
+            rgba(19, 37, 62, 0.97) 72%
+        ),
+        linear-gradient(to bottom,
+            rgba(19, 37, 62, 0.35) 0%,
+            transparent 25%,
+            transparent 75%,
+            rgba(19, 37, 62, 0.35) 100%
+        );
+}
+
+/* [3] Midnight Gold — kuning muncul dari bawah seperti matahari terbit */
+.bg-overlay-3 {
+    --overlay:
+        radial-gradient(ellipse at 50% 110%, rgba(255, 247, 0, 0.18) 0%, transparent 50%),
+        linear-gradient(to bottom,
+            rgba(19, 37, 62, 0.96) 0%,
+            rgba(28, 74, 127, 0.72) 45%,
+            rgba(19, 37, 62, 0.88) 100%
+        );
+}
+
+/* [4] Neon Horizon — kuning menyala di tengah horizontal */
+.bg-overlay-4 {
+    --overlay:
+        linear-gradient(to bottom,
+            rgba(19, 37, 62, 0.97) 0%,
+            rgba(19, 37, 62, 0.55) 22%,
+            transparent 45%,
+            transparent 55%,
+            rgba(19, 37, 62, 0.55) 78%,
+            rgba(19, 37, 62, 0.97) 100%
+        ),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 247, 0, 0.11) 0%, rgba(28, 74, 127, 0.50) 42%, rgba(19, 37, 62, 0.88) 72%);
+}
+
+/* [5] Split Glow — kiri bawah kuning, kanan atas biru, cinematic */
+.bg-overlay-5 {
+    --overlay:
+        radial-gradient(ellipse at 10% 90%, rgba(255, 247, 0, 0.13) 0%, transparent 45%),
+        radial-gradient(ellipse at 90% 10%, rgba(28, 74, 127, 0.35) 0%, transparent 45%),
+        linear-gradient(to bottom,
+            rgba(19, 37, 62, 0.93) 0%,
+            rgba(19, 37, 62, 0.52) 35%,
+            rgba(19, 37, 62, 0.52) 65%,
+            rgba(19, 37, 62, 0.93) 100%
+        );
+}
+
+/* [6] Glass Stage — spotlight atas, fade bawah, efek panggung modern */
+.bg-overlay-6 {
+    --overlay:
+        radial-gradient(ellipse at 50% -5%, rgba(255, 247, 0, 0.14) 0%, transparent 42%),
+        radial-gradient(ellipse at 50% 50%, rgba(28, 74, 127, 0.30) 0%, transparent 60%),
+        linear-gradient(to bottom,
+            rgba(19, 37, 62, 0.78) 0%,
+            rgba(19, 37, 62, 0.45) 30%,
+            rgba(19, 37, 62, 0.45) 70%,
+            rgba(19, 37, 62, 0.88) 100%
+        );
+}

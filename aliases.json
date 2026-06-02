@@ -1,0 +1,620 @@
+{
+    "_comment": "Alias normalisasi teks TTS. 'pattern' adalah regex string, 'flags' adalah regex flags (default: 'gi'). Urutan penting: pola lebih spesifik harus lebih dulu.",
+    "aliases": [
+        {
+            "_section": "Sub-spesialis Penyakit Dalam (Sp.PD-Kxxx)"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KHOM\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Hematologi Onkologi Medik"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KGEH\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Gastroentero Hepatologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KEMD\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Endokrinologi Metabolisme Diabetes"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KPTI\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Penyakit Tropik dan Infeksi"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KGER\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Geriatri"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KGH\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Ginjal dan Hipertensi"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KGEH\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Gastroenterologi Hepatologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KKV\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Kardiovaskular"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD-KR\\b",
+            "replacement": "Spesialis Penyakit Dalam Konsultan Reumatologi"
+        },
+        {
+            "_section": "Sub-spesialis Bedah (Sp.B(K)xxx)"
+        },
+        {
+            "pattern": "Sp\\.\\s*B\\s*\\(K\\)Onk\\b",
+            "replacement": "Spesialis Bedah Onkologi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*B\\s*\\(K\\)BD\\b",
+            "replacement": "Spesialis Bedah Digestif Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*B\\s*\\(K\\)TKV\\b",
+            "replacement": "Spesialis Bedah Toraks Kardiovaskular Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*B\\s*\\(K\\)V\\b",
+            "replacement": "Spesialis Bedah Vaskular Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*B\\s*\\(K\\)\\b",
+            "replacement": "Spesialis Bedah Konsultan"
+        },
+        {
+            "_section": "Sub-spesialis THT Kepala Leher"
+        },
+        {
+            "pattern": "Sp\\.\\s*THT-KL\\s*\\(K\\)",
+            "replacement": "Spesialis Telinga Hidung Tenggorokan Kepala Leher Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*THT-KL\\b",
+            "replacement": "Spesialis Telinga Hidung Tenggorokan Kepala Leher"
+        },
+        {
+            "_section": "Sub-spesialis Ortopedi"
+        },
+        {
+            "pattern": "Sp\\.\\s*OT\\s*\\(K\\)\\b",
+            "replacement": "Spesialis Ortopedi dan Traumatologi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*OT\\b",
+            "replacement": "Spesialis Ortopedi dan Traumatologi"
+        },
+        {
+            "_section": "Sub-spesialis dengan notasi (K) — urut dari kode terpanjang"
+        },
+        {
+            "pattern": "Sp\\.\\s*BTKV\\s*\\(K\\)",
+            "replacement": "Spesialis Bedah Toraks Kardiovaskular Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*KFR\\s*\\(K\\)",
+            "replacement": "Spesialis Kedokteran Fisik dan Rehabilitasi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*KGA\\s*\\(K\\)",
+            "replacement": "Spesialis Kedokteran Gigi Anak Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*ORT\\s*\\(K\\)",
+            "replacement": "Spesialis Ortopedi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*OG\\s*\\(K\\)",
+            "replacement": "Spesialis Obstetri dan Ginekologi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*MK\\s*\\(K\\)",
+            "replacement": "Spesialis Mikrobiologi Klinik Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*KK\\s*\\(K\\)",
+            "replacement": "Spesialis Kulit dan Kelamin Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*KJ\\s*\\(K\\)",
+            "replacement": "Spesialis Kedokteran Jiwa Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*KG\\s*\\(K\\)",
+            "replacement": "Spesialis Konservasi Gigi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*JK\\s*\\(K\\)",
+            "replacement": "Spesialis Jantung dan Pembuluh Darah Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*GK\\s*\\(K\\)",
+            "replacement": "Spesialis Gizi Klinik Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*EM\\s*\\(K\\)",
+            "replacement": "Spesialis Emergensi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*RM\\s*\\(K\\)",
+            "replacement": "Spesialis Rehabilitasi Medik Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*Rad\\s*\\(K\\)",
+            "replacement": "Spesialis Radiologi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*PK\\s*\\(K\\)",
+            "replacement": "Spesialis Patologi Klinik Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD\\s*\\(K\\)",
+            "replacement": "Spesialis Penyakit Dalam Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*PA\\s*\\(K\\)",
+            "replacement": "Spesialis Patologi Anatomi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*An\\s*\\(K\\)",
+            "replacement": "Spesialis Anestesiologi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*JP\\s*\\(K\\)",
+            "replacement": "Spesialis Jantung dan Pembuluh Darah Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*THT\\s*\\(K\\)",
+            "replacement": "Spesialis Telinga Hidung dan Tenggorokan Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*U\\s*\\(K\\)",
+            "replacement": "Spesialis Urologi Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*S\\s*\\(K\\)",
+            "replacement": "Spesialis Saraf Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*P\\s*\\(K\\)",
+            "replacement": "Spesialis Paru Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*N\\s*\\(K\\)",
+            "replacement": "Spesialis Saraf Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*M\\s*\\(K\\)",
+            "replacement": "Spesialis Mata Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*F\\s*\\(K\\)",
+            "replacement": "Spesialis Forensik Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*D\\s*\\(K\\)",
+            "replacement": "Spesialis Kulit dan Kelamin Konsultan"
+        },
+        {
+            "pattern": "Sp\\.\\s*A\\s*\\(K\\)",
+            "replacement": "Spesialis Anak Konsultan"
+        },
+        {
+            "_section": "Spesialis umum (multi huruf dulu, kemudian satu huruf)"
+        },
+        {
+            "pattern": "Sp\\.\\s*BTKV\\b",
+            "replacement": "Spesialis Bedah Toraks Kardiovaskular"
+        },
+        {
+            "pattern": "Sp\\.\\s*KFR\\b",
+            "replacement": "Spesialis Kedokteran Fisik dan Rehabilitasi"
+        },
+        {
+            "pattern": "Sp\\.\\s*KGA\\b",
+            "replacement": "Spesialis Kedokteran Gigi Anak"
+        },
+        {
+            "pattern": "Sp\\.\\s*THT-KL\\b",
+            "replacement": "Spesialis Telinga Hidung Tenggorokan Kepala Leher"
+        },
+        {
+            "pattern": "Sp\\.\\s*THT\\b",
+            "replacement": "Spesialis Telinga Hidung dan Tenggorokan"
+        },
+        {
+            "pattern": "Sp\\.\\s*ORT\\b",
+            "replacement": "Spesialis Ortopedi"
+        },
+        {
+            "pattern": "Sp\\.\\s*OG\\b",
+            "replacement": "Spesialis Obstetri dan Ginekologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*MK\\b",
+            "replacement": "Spesialis Mikrobiologi Klinik"
+        },
+        {
+            "pattern": "Sp\\.\\s*KK\\b",
+            "replacement": "Spesialis Kulit dan Kelamin"
+        },
+        {
+            "pattern": "Sp\\.\\s*KJ\\b",
+            "replacement": "Spesialis Kedokteran Jiwa"
+        },
+        {
+            "pattern": "Sp\\.\\s*KG\\b",
+            "replacement": "Spesialis Konservasi Gigi"
+        },
+        {
+            "pattern": "Sp\\.\\s*JK\\b",
+            "replacement": "Spesialis Jantung dan Pembuluh Darah"
+        },
+        {
+            "pattern": "Sp\\.\\s*GK\\b",
+            "replacement": "Spesialis Gizi Klinik"
+        },
+        {
+            "pattern": "Sp\\.\\s*EM\\b",
+            "replacement": "Spesialis Emergensi"
+        },
+        {
+            "pattern": "Sp\\.\\s*BU\\b",
+            "replacement": "Spesialis Bedah Urologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*BS\\b",
+            "replacement": "Spesialis Bedah Saraf"
+        },
+        {
+            "pattern": "Sp\\.\\s*BP\\b",
+            "replacement": "Spesialis Bedah Plastik"
+        },
+        {
+            "pattern": "Sp\\.\\s*BA\\b",
+            "replacement": "Spesialis Bedah Anak"
+        },
+        {
+            "pattern": "Sp\\.\\s*RM\\b",
+            "replacement": "Spesialis Rehabilitasi Medik"
+        },
+        {
+            "pattern": "Sp\\.\\s*Rad\\b",
+            "replacement": "Spesialis Radiologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*PK\\b",
+            "replacement": "Spesialis Patologi Klinik"
+        },
+        {
+            "pattern": "Sp\\.\\s*PD\\b",
+            "replacement": "Spesialis Penyakit Dalam"
+        },
+        {
+            "pattern": "Sp\\.\\s*PA\\b",
+            "replacement": "Spesialis Patologi Anatomi"
+        },
+        {
+            "pattern": "Sp\\.\\s*Ok\\b",
+            "replacement": "Spesialis Ortodonti"
+        },
+        {
+            "pattern": "Sp\\.\\s*An\\b",
+            "replacement": "Spesialis Anestesiologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*JP\\b",
+            "replacement": "Spesialis Jiwa"
+        },
+        {
+            "pattern": "Sp\\.\\s*U\\b",
+            "replacement": "Spesialis Urologi"
+        },
+        {
+            "pattern": "Sp\\.\\s*S\\b",
+            "replacement": "Spesialis Saraf"
+        },
+        {
+            "pattern": "Sp\\.\\s*P\\b",
+            "replacement": "Spesialis Paru"
+        },
+        {
+            "pattern": "Sp\\.\\s*N\\b",
+            "replacement": "Spesialis Saraf"
+        },
+        {
+            "pattern": "Sp\\.\\s*M\\b",
+            "replacement": "Spesialis Mata"
+        },
+        {
+            "pattern": "Sp\\.\\s*F\\b",
+            "replacement": "Spesialis Forensik"
+        },
+        {
+            "pattern": "Sp\\.\\s*D\\b",
+            "replacement": "Spesialis Kulit dan Kelamin"
+        },
+        {
+            "pattern": "Sp\\.\\s*B\\b",
+            "replacement": "Spesialis Bedah"
+        },
+        {
+            "pattern": "Sp\\.\\s*A\\b",
+            "replacement": "Spesialis Anak"
+        },
+        {
+            "_section": "Gelar Profesi"
+        },
+        {
+            "pattern": "\\bNs\\b\\.?",
+            "replacement": "Ners",
+            "flags": "g"
+        },
+        {
+            "pattern": "\\bBd\\b\\.?",
+            "replacement": "Bidan",
+            "flags": "g"
+        },
+        {
+            "pattern": "\\bBdn\\b\\.?",
+            "replacement": "Bidan",
+            "flags": "g"
+        },
+        {
+            "pattern": "\\bApt\\b\\.?",
+            "replacement": "Apoteker",
+            "flags": "g"
+        },
+        {
+            "pattern": "\\bRD\\b",
+            "replacement": "Ahli Gizi",
+            "flags": "g"
+        },
+        {
+            "_section": "Gelar Doktor / Akademik Tertinggi"
+        },
+        {
+            "pattern": "\\bPh\\.D\\b\\.?",
+            "replacement": "Doktor"
+        },
+        {
+            "pattern": "\\bD\\.Med\\.Sc\\b",
+            "replacement": "Doktor Ilmu Kedokteran"
+        },
+        {
+            "_section": "Gelar Magister (S2) — spesifik dulu"
+        },
+        {
+            "pattern": "\\bMARS\\b",
+            "replacement": "Magister Administrasi Rumah Sakit"
+        },
+        {
+            "pattern": "\\bM\\.Epid\\b",
+            "replacement": "Magister Epidemiologi"
+        },
+        {
+            "pattern": "\\bM\\.KM\\b",
+            "replacement": "Magister Kesehatan Masyarakat"
+        },
+        {
+            "pattern": "\\bMKM\\b",
+            "replacement": "Magister Kesehatan Masyarakat"
+        },
+        {
+            "pattern": "\\bMBA\\b",
+            "replacement": "Magister Bisnis Administrasi"
+        },
+        {
+            "pattern": "\\bM\\.Biomed\\b",
+            "replacement": "Magister Biomedis"
+        },
+        {
+            "pattern": "\\bM\\.Kes\\b",
+            "replacement": "Magister Kesehatan"
+        },
+        {
+            "pattern": "\\bM\\.Kep\\b",
+            "replacement": "Magister Keperawatan"
+        },
+        {
+            "pattern": "\\bM\\.Keb\\b",
+            "replacement": "Magister Kebidanan"
+        },
+        {
+            "pattern": "\\bM\\.Ked\\b",
+            "replacement": "Magister Kedokteran"
+        },
+        {
+            "pattern": "\\bM\\.Ked\\b(OG)",
+            "replacement": "Magister Kedokteran Obgyn"
+        },
+        {
+            "pattern": "\\bM\\.Farm\\b",
+            "replacement": "Magister Farmasi"
+        },
+        {
+            "pattern": "\\bM\\.Sc\\b\\.?",
+            "replacement": "Magister Sains"
+        },
+        {
+            "pattern": "\\bM\\.Si\\b",
+            "replacement": "Magister Sains"
+        },
+        {
+            "_section": "Gelar Sarjana Terapan (D4 / STr)"
+        },
+        {
+            "pattern": "\\bSTr\\.Keb\\b",
+            "replacement": "Sarjana Terapan Kebidanan"
+        },
+        {
+            "pattern": "\\bSTr\\.Kep\\b",
+            "replacement": "Sarjana Terapan Keperawatan"
+        },
+        {
+            "pattern": "\\bSTr\\.Farm\\b",
+            "replacement": "Sarjana Terapan Farmasi"
+        },
+        {
+            "pattern": "\\bSTr\\.Gz\\b",
+            "replacement": "Sarjana Terapan Gizi"
+        },
+        {
+            "pattern": "\\bSTr\\.Kes\\b",
+            "replacement": "Sarjana Terapan Kesehatan"
+        },
+        {
+            "_section": "Gelar Sarjana (S1) Indonesia — spesifik dulu"
+        },
+        {
+            "pattern": "\\bS\\.Farm\\b",
+            "replacement": "Sarjana Farmasi"
+        },
+        {
+            "pattern": "\\bS\\.Kep\\b",
+            "replacement": "Sarjana Keperawatan"
+        },
+        {
+            "pattern": "\\bS\\.Keb\\b",
+            "replacement": "Sarjana Kebidanan"
+        },
+        {
+            "pattern": "\\bS\\.Ked\\b",
+            "replacement": "Sarjana Kedokteran"
+        },
+        {
+            "pattern": "\\bS\\.KG\\b",
+            "replacement": "Sarjana Kedokteran Gigi"
+        },
+        {
+            "pattern": "\\bS\\.KM\\b",
+            "replacement": "Sarjana Kesehatan Masyarakat"
+        },
+        {
+            "pattern": "\\bSKM\\b",
+            "replacement": "Sarjana Kesehatan Masyarakat"
+        },
+        {
+            "pattern": "\\bS\\.Gz\\b",
+            "replacement": "Sarjana Gizi"
+        },
+        {
+            "pattern": "\\bS\\.Ft\\b",
+            "replacement": "Sarjana Fisioterapi"
+        },
+        {
+            "pattern": "\\bS\\.Si\\b",
+            "replacement": "Sarjana Sains"
+        },
+        {
+            "pattern": "\\bS\\.Kom\\b",
+            "replacement": "Sarjana Komputer"
+        },
+        {
+            "pattern": "\\bS\\.Ak\\b",
+            "replacement": "Sarjana Akuntansi"
+        },
+        {
+            "pattern": "\\bS\\.E\\b",
+            "replacement": "Sarjana Ekonomi"
+        },
+        {
+            "pattern": "\\bS\\.H\\b",
+            "replacement": "Sarjana Hukum"
+        },
+        {
+            "pattern": "\\bS\\.T\\b",
+            "replacement": "Sarjana Teknik"
+        },
+        {
+            "pattern": "\\bB\\.Sc\\b\\.?",
+            "replacement": "Sarjana Sains"
+        },
+        {
+            "_section": "Gelar Ahli Madya (D3 / Amd) — spesifik dulu"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.RMIK\\b",
+            "replacement": "Ahli Madya Rekam Medis dan Informasi Kesehatan"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Farm\\b",
+            "replacement": "Ahli Madya Farmasi"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Keb\\b",
+            "replacement": "Ahli Madya Kebidanan"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Kep\\b",
+            "replacement": "Ahli Madya Keperawatan"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Rad\\b",
+            "replacement": "Ahli Madya Radiologi"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Fis\\b",
+            "replacement": "Ahli Madya Fisioterapi"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.TRO\\b",
+            "replacement": "Ahli Madya Terapi Okupasi"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.TEM\\b",
+            "replacement": "Ahli Madya Teknik Elektromedik"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Gz\\b",
+            "replacement": "Ahli Madya Gizi"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.Ak\\b",
+            "replacement": "Ahli Madya Analis Kesehatan"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.PK\\b",
+            "replacement": "Ahli Madya Patologi Klinik"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.KG\\b",
+            "replacement": "Ahli Madya Keperawatan Gigi"
+        },
+        {
+            "pattern": "\\bA[Mm]d\\.RO\\b",
+            "replacement": "Ahli Madya Refraksionis Optisien"
+        },
+        {
+            "_section": "Gelar Dasar Dokter"
+        },
+        {
+            "pattern": "\\bProf\\b\\.?",
+            "replacement": "Profesor"
+        },
+        {
+            "pattern": "\\bdrg\\b\\.?",
+            "replacement": "Dokter Gigi"
+        },
+        {
+            "pattern": "\\bDr\\b\\.?",
+            "replacement": "Doktor"
+        },
+        {
+            "pattern": "\\bdr\\b\\.?",
+            "replacement": "Dokter"
+        },
+        {
+            "pattern": "\\bM\\.D\\b\\.?",
+            "replacement": "Dokter Medis"
+        },
+        {
+            "_section": "Pembersihan koma dan spasi berlebih"
+        },
+        {
+            "pattern": ",\\s*",
+            "replacement": ", "
+        }
+    ]
+}

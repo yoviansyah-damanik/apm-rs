@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class SepInternal extends Model
+{
+    protected $connection = 'simrs';
+    protected $table = 'bridging_sep_internal';
+    protected $guarded = [];
+    public $incrementing = false;
+    public $timestamps = false;
+    protected $primaryKey = 'no_sep';
+    protected $keyType = 'string';
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'tglkkl' => 'date',
+            'tglpulang' => 'datetime',
+        ];
+    }
+}
