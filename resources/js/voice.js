@@ -99,7 +99,7 @@ export function detectVoice(targetName = null, lang = 'id-ID') {
     }
 
     // Fallback ke bahasa Indonesia manapun
-    const fallback = voices.find(v => v.lang === lang || v.lang.startsWith(lang.split('-')[0]));
+    const fallback = voices.find(v => v.lang === lang || v.lang?.startsWith(lang.split('-')[0]));
     if (fallback) {
         dbg('Voice fallback (lang match):', fallback.name, fallback.lang);
         return fallback;
@@ -287,7 +287,7 @@ export function voiceComponent(options = {}) {
         get availableVoices() {
             if (!window.speechSynthesis) return [];
             return window.speechSynthesis.getVoices().filter(
-                v => v.lang.startsWith('id') || v.lang.startsWith('en')
+                v => v.lang?.startsWith('id') || v.lang?.startsWith('en')
             );
         },
     };

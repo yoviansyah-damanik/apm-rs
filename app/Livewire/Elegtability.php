@@ -14,6 +14,7 @@ use App\Models\Sep;
 use App\Models\SepInternal;
 use App\Services\BpjsService;
 use App\Services\RegisterService;
+use App\Services\ActivityLogService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
@@ -519,6 +520,14 @@ class Elegtability extends Component
                 array_merge($sepFields, ['no_rawat' => $noRawat])
             );
 
+            ActivityLogService::success('bpjs', 'insert_sep', "SEP ditemukan & digunakan ulang: {$sepData['noSep']}", [
+                'no_sep' => $sepData['noSep'],
+                'no_rawat' => $noRawat,
+                'no_rkm_medis' => $this->mrNumber,
+                'purpose_of_visit' => $this->purposeOfVisit->name ?? null,
+                'source' => 'checkAvailableSEP',
+            ]);
+
             $this->addDiagnose($noRawat);
 
             DB::connection('simrs')->commit();
@@ -540,6 +549,10 @@ class Elegtability extends Component
 
         } catch (\Exception $e) {
             DB::connection('simrs')->rollBack();
+            ActivityLogService::error('bpjs', 'insert_sep', 'Exception  pada checkAvailableSEP: ' . $e->getMessage(), [
+                'no_rkm_medis' => $this->mrNumber,
+                'error' => $e->getMessage(),
+            ]);
             LivewireAlert::error()
                 ->title('Error')
                 ->text($e->getMessage())
@@ -677,8 +690,13 @@ class Elegtability extends Component
                     }
 
                     if ($isFailed) {
-                        DB::rollBack();
                         $errorMessage = $addAntrol['data']['metadata']['message'] ?? 'Gagal menambahkan antrean';
+                        ActivityLogService::error('bpjs', 'antrol_poli', "Gagal menambahkan antrean poli: {$errorMessage}", [
+                            'no_rawat' => $register['no_rawat'] ?? null,
+                            'no_rkm_medis' => $this->mrNumber,
+                            'response_code' => $addAntrol['data']['metadata']['code'] ?? null,
+                        ]);
+                        DB::rollBack();
                         LivewireAlert::error()
                             ->title('Gagal Menambahkan Antrean')
                             ->text($errorMessage)
@@ -688,6 +706,14 @@ class Elegtability extends Component
                     }
                 }
             }
+
+            ActivityLogService::success('bpjs', 'antrol_poli', "Antrean poli berhasil ditambahkan ke BPJS Antrol", [
+                'no_rawat' => $register['no_rawat'],
+                'no_rkm_medis' => $this->mrNumber,
+                'kd_poli' => $this->polyclinicId,
+                'kd_dokter' => $this->doctorId,
+                'response_code' => $addAntrol['data']['metadata']['code'] ?? null,
+            ]);
 
             // Catat Log Antrol
             // $antrolLog = DB::table('bridging_antrean_poli_bpjs')
@@ -713,8 +739,13 @@ class Elegtability extends Component
 
             // Check SEP insert response
             if (isset($sep['success']) && $sep['success'] === false) {
-                DB::connection('simrs')->rollBack();
                 $errorMessage = $sep['data']['metaData']['message'] ?? 'Gagal insert SEP';
+                ActivityLogService::error('bpjs', 'insert_sep', "Gagal insert SEP ke BPJS: {$errorMessage}", [
+                    'no_rkm_medis' => $this->mrNumber,
+                    'purpose_of_visit' => $this->purposeOfVisit->name ?? null,
+                    'error' => $errorMessage,
+                ]);
+                DB::connection('simrs')->rollBack();
                 LivewireAlert::error()
                     ->title('Gagal Insert SEP')
                     ->text($errorMessage)
@@ -724,6 +755,9 @@ class Elegtability extends Component
             }
 
             if (!isset($sep['data']['response'])) {
+                ActivityLogService::error('bpjs', 'insert_sep', 'Response SEP tidak memiliki data valid', [
+                    'no_rkm_medis' => $this->mrNumber,
+                ]);
                 DB::connection('simrs')->rollBack();
                 LivewireAlert::error()
                     ->title('Data SEP Tidak Valid')
@@ -850,6 +884,16 @@ class Elegtability extends Component
                 ]);
             }
 
+            ActivityLogService::success('bpjs', 'insert_sep', "SEP berhasil diterbitkan: {$sepData['noSep']}", [
+                'no_sep' => $sepData['noSep'],
+                'no_rawat' => $register['no_rawat'],
+                'no_rkm_medis' => $this->mrNumber,
+                'tgl_sep' => $sepData['tglSep'],
+                'diagnose' => $this->diagnoseId,
+                'purpose_of_visit' => $this->purposeOfVisit->name,
+                'source' => 'exeOnsite',
+            ]);
+
             $this->addDiagnose($register['no_rawat']);
 
             DB::connection('simrs')->commit();
@@ -861,6 +905,10 @@ class Elegtability extends Component
             ]);
         } catch (\Exception $e) {
             DB::connection('simrs')->rollBack();
+            ActivityLogService::error('bpjs', 'insert_sep', 'Exception pada exeOnsite: ' . $e->getMessage(), [
+                'no_rkm_medis' => $this->mrNumber,
+                'error' => $e->getMessage(),
+            ]);
             LivewireAlert::error()
                 ->title('Error')
                 ->text($e->getMessage())
@@ -911,8 +959,13 @@ class Elegtability extends Component
 
             // Check SEP insert response
             if (isset($sep['success']) && $sep['success'] === false) {
-                DB::rollBack();
                 $errorMessage = $sep['data']['metaData']['message'] ?? 'Gagal insert SEP';
+                ActivityLogService::error('bpjs', 'insert_sep', "Gagal insert SEP ke BPJS: {$errorMessage}", [
+                    'no_rkm_medis' => $this->mrNumber,
+                    'purpose_of_visit' => $this->purposeOfVisit->name ?? null,
+                    'error' => $errorMessage,
+                ]);
+                DB::rollBack();
                 LivewireAlert::error()
                     ->title('Gagal Insert SEP')
                     ->text($errorMessage)
@@ -922,6 +975,9 @@ class Elegtability extends Component
             }
 
             if (!isset($sep['data']['response'])) {
+                ActivityLogService::error('bpjs', 'insert_sep', 'Response SEP tidak memiliki data valid', [
+                    'no_rkm_medis' => $this->mrNumber,
+                ]);
                 DB::rollBack();
                 LivewireAlert::error()
                     ->title('Data SEP Tidak Valid')
@@ -1053,6 +1109,16 @@ class Elegtability extends Component
                 ]);
             }
 
+            ActivityLogService::success('bpjs', 'insert_sep', "SEP berhasil diterbitkan: {$sepData['noSep']}", [
+                'no_sep' => $sepData['noSep'],
+                'no_rawat' => $noRawat,
+                'no_rkm_medis' => $this->mrNumber,
+                'tgl_sep' => $sepData['tglSep'],
+                'diagnose' => $this->diagnoseId,
+                'purpose_of_visit' => $this->purposeOfVisit->name,
+                'source' => 'exeJkn',
+            ]);
+
             $this->addDiagnose($noRawat);
 
             DB::commit();
@@ -1063,6 +1129,10 @@ class Elegtability extends Component
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+            ActivityLogService::error('bpjs', 'insert_sep', 'Exception pada exeJkn: ' . $e->getMessage(), [
+                'no_rkm_medis' => $this->mrNumber,
+                'error' => $e->getMessage(),
+            ]);
             LivewireAlert::error()
                 ->title('Error')
                 ->text($e->getMessage())

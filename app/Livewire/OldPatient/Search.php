@@ -17,7 +17,7 @@ class Search extends Component
     // public $idNumber = '0002607785853';
     // public $idNumber = '';
     // Valid Dev
-    public $idNumber = '042790';
+    public $idNumber = '';
     // public $idNumber = '';
     // public $idNumber = '046616';
     // public $idNumber = '999999';
@@ -161,9 +161,6 @@ class Search extends Component
     #[On('updatePhoneNumber')]
     public function updatePhoneNumber($newPhoneNumber)
     {
-        Patient::where('no_rkm_medis', $this->patient->no_rkm_medis)
-            ->update(['no_tlp' => $newPhoneNumber]);
-
-        $this->patient['no_tlp'] = $newPhoneNumber;
+        $this->patient->update(['no_tlp' => $newPhoneNumber]);
     }
 }

@@ -10,6 +10,7 @@ use App\Models\ReferralIn;
 use App\Models\BpjsPolyclinic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Date;
+use App\Services\ActivityLogService;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 class RegisterService
@@ -135,9 +136,24 @@ class RegisterService
             }
 
             DB::connection('simrs')->commit();
+
+            ActivityLogService::success('database', 'ambil_antrean_poli', "Pendaftaran berhasil: {$careNumber}", [
+                'no_rawat'     => $careNumber,
+                'no_rkm_medis' => is_array($patient) ? $patient['no_rkm_medis'] : $patient->no_rkm_medis,
+                'kd_poli'      => $polyclinicIdRs,
+                'kd_dokter'    => $doctorIdRs,
+                'no_reg'       => $regNumber,
+            ]);
+
             return $register;
         } catch (\Exception $e) {
             DB::connection('simrs')->rollBack();
+
+            ActivityLogService::error('database', 'ambil_antrean_poli', 'Gagal menyimpan pendaftaran: ' . $e->getMessage(), [
+                'no_rkm_medis' => is_array($patient) ? ($patient['no_rkm_medis'] ?? null) : ($patient->no_rkm_medis ?? null),
+                'error'        => $e->getMessage(),
+            ]);
+
             LivewireAlert::error()
                 ->title('Notifikasi Pendaftaran')
                 ->text($e->getMessage())

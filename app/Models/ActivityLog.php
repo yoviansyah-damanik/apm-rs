@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActivityLog extends Model
 {
-    protected $connection = 'simrs';
+    protected $connection = 'mariadb';
     protected $table = 'apm_activity_logs';
     protected $guarded = [];
     public $timestamps = false;

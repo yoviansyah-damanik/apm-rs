@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Events\QueueOrder;
 use App\Services\QueueService;
+use App\Services\ActivityLogService;
 use App\Models\EnrollmentQueue;
 use Illuminate\Support\Facades\DB;
 
@@ -100,6 +101,12 @@ class NewPatient extends Component
             $this->lastTakenQueue = $newQueue->nomor;
             $this->isPriority = false;
 
+            ActivityLogService::success('system', 'ambil_antrean_loket', "Nomor antrean {$newQueue->nomor} berhasil diambil", [
+                'nomor'    => $newQueue->nomor,
+                'prioritas' => false,
+                'jam'      => $newQueue->jam,
+            ]);
+
             if ($isMode1) {
                 $this->queueNumber = ((int) $newQueue->nomor) + 1;
             } else {
@@ -119,6 +126,10 @@ class NewPatient extends Component
                 'printerName' => config('app.queue_printer_name', 'ANTREAN')
             ]);
         } catch (\Exception $e) {
+            ActivityLogService::error('system', 'ambil_antrean_loket', 'Gagal mengambil nomor antrean loket: ' . $e->getMessage(), [
+                'prioritas' => false,
+                'error'     => $e->getMessage(),
+            ]);
             $this->dispatch('queue-error', [
                 'message' => 'Gagal mengambil nomor antrean: ' . $e->getMessage()
             ]);
@@ -153,6 +164,12 @@ class NewPatient extends Component
             $this->lastTakenQueue = $newQueue->nomor;
             $this->isPriority = true;
 
+            ActivityLogService::success('system', 'ambil_antrean_loket', "Nomor antrean prioritas {$newQueue->nomor} berhasil diambil", [
+                'nomor'    => $newQueue->nomor,
+                'prioritas' => true,
+                'jam'      => $newQueue->jam,
+            ]);
+
             $nextPriority = 'A-' . sprintf("%03d", (int) substr($newQueue->nomor, -3) + 1);
             $this->priorityQueueNumber = $nextPriority;
 
@@ -178,6 +195,10 @@ class NewPatient extends Component
                 'printerName' => config('app.queue_printer_name', 'ANTREAN')
             ]);
         } catch (\Exception $e) {
+            ActivityLogService::error('system', 'ambil_antrean_loket', 'Gagal mengambil nomor antrean prioritas: ' . $e->getMessage(), [
+                'prioritas' => true,
+                'error'     => $e->getMessage(),
+            ]);
             $this->dispatch('queue-error', [
                 'message' => 'Gagal mengambil nomor antrean prioritas: ' . $e->getMessage()
             ]);

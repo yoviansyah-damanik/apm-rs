@@ -10,6 +10,7 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use App\Services\BpjsService;
+use App\Services\ActivityLogService;
 use Livewire\Attributes\Reactive;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\BpjsTimeoutException;
@@ -124,6 +125,12 @@ class Search extends Component
                 $errorCode = $payload['data']['metaData']['code'] ?? 500;
                 $errorMessage = $payload['data']['metaData']['message'] ?? 'Koneksi ke server BPJS gagal';
 
+                ActivityLogService::error('bpjs', 'check_jkn', "Gagal verifikasi peserta BPJS: {$errorMessage}", [
+                    'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
+                    'kode_booking' => $this->idNumber,
+                    'error_code'   => $errorCode,
+                ]);
+
                 $this->dispatch('bpjsCheckFailed', [
                     'code' => $errorCode,
                     'message' => $errorMessage
@@ -133,6 +140,11 @@ class Search extends Component
 
             // Validasi struktur data
             if (!isset($payload['data']['peserta'])) {
+                ActivityLogService::error('bpjs', 'check_jkn', 'Response BPJS tidak memiliki struktur data yang valid', [
+                    'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
+                    'kode_booking' => $this->idNumber,
+                ]);
+
                 $this->dispatch('bpjsCheckFailed', [
                     'code' => 500,
                     'message' => 'Response dari BPJS tidak memiliki struktur data yang valid'
@@ -141,6 +153,13 @@ class Search extends Component
             }
 
             $this->participantData = $payload['data'];
+
+            ActivityLogService::success('bpjs', 'check_jkn', "Data peserta BPJS berhasil diverifikasi", [
+                'no_rkm_medis' => $this->patient->no_rkm_medis,
+                'kode_booking' => $this->idNumber,
+                'no_kartu'     => $payload['data']['peserta']['noKartu'] ?? null,
+                'nama_peserta' => $payload['data']['peserta']['nama'] ?? null,
+            ]);
 
             // Tutup modal loading dan tampilkan modal data peserta
             $this->showProcessModal = false;
@@ -151,12 +170,22 @@ class Search extends Component
             $this->dispatch('setJknBooking', $this->jknBooking);
             $this->dispatch('participantCheck', $this->participantData);
         } catch (BpjsTimeoutException $e) {
+            ActivityLogService::error('bpjs', 'check_jkn', 'Timeout saat check JKN: ' . $e->getMessage(), [
+                'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
+                'kode_booking' => $this->idNumber,
+                'error'        => $e->getMessage(),
+            ]);
             $this->dispatch('bpjsCheckFailed', [
                 'code' => 'TIMEOUT',
                 'message' => $e->getMessage(),
                 'timeout' => true
             ]);
         } catch (\Exception $e) {
+            ActivityLogService::error('bpjs', 'check_jkn', 'Exception saat check JKN: ' . $e->getMessage(), [
+                'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
+                'kode_booking' => $this->idNumber,
+                'error'        => $e->getMessage(),
+            ]);
             $this->dispatch('bpjsCheckFailed', [
                 'code' => 'ERROR',
                 'message' => $e->getMessage()
@@ -215,9 +244,6 @@ class Search extends Component
     #[On('updatePhoneNumber')]
     public function updatePhoneNumber($newPhoneNumber)
     {
-        Patient::where('no_rkm_medis', $this->patient->no_rkm_medis)
-            ->update(['no_tlp' => $newPhoneNumber]);
-
-        $this->patient['no_tlp'] = $newPhoneNumber;
+        $this->patient->update(['no_tlp' => $newPhoneNumber]);
     }
 }
