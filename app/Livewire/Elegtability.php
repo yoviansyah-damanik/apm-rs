@@ -622,7 +622,15 @@ class Elegtability extends Component
                     referralData: $referralData,
                     purposeOfVisit: $this->purposeOfVisit
                 );
-                // dd($addAntrol);
+                ActivityLogService::log('bpjs', 'antrol_poli',
+                    $addAntrol['data']['metadata']['code'] == 200 ? 'success' : 'error',
+                    "addQueue [attempt-1] — kode: " . ($addAntrol['data']['metadata']['code'] ?? '?'), [
+                        'no_rawat'      => $register['no_rawat'] ?? null,
+                        'no_rkm_medis'  => $this->mrNumber,
+                        'response_code' => $addAntrol['data']['metadata']['code'] ?? null,
+                        'response_msg'  => $addAntrol['data']['metadata']['message'] ?? null,
+                    ]
+                );
 
                 // Check antrol response
                 if (!isset($addAntrol['data']['metadata']['code']) || !in_array($addAntrol['data']['metadata']['code'], [200])) {
@@ -639,6 +647,15 @@ class Elegtability extends Component
                             purposeOfVisit: $this->purposeOfVisit,
                             schedule: $this->schedule,
                             isJkn: true
+                        );
+
+                        ActivityLogService::log('bpjs', 'antrol_poli',
+                            $bookingCodeIsCorrect ? 'success' : 'error',
+                            "checkQueue (duplikat 208) — booking " . ($bookingCodeIsCorrect ? 'valid' : 'konflik'), [
+                                'no_rawat'     => $register['no_rawat'] ?? null,
+                                'no_rkm_medis' => $this->mrNumber,
+                                'is_correct'   => $bookingCodeIsCorrect,
+                            ]
                         );
 
                         if ($bookingCodeIsCorrect) {
@@ -681,6 +698,16 @@ class Elegtability extends Component
                                 schedule: $this->schedule,
                                 referralData: $referralData,
                                 purposeOfVisit: $this->purposeOfVisit
+                            );
+
+                            ActivityLogService::log('bpjs', 'antrol_poli',
+                                $addAntrol['data']['metadata']['code'] == 200 ? 'success' : 'error',
+                                "addQueue [attempt-2/retry] — kode: " . ($addAntrol['data']['metadata']['code'] ?? '?'), [
+                                    'no_rawat_baru' => $newCareNumber,
+                                    'no_rkm_medis'  => $this->mrNumber,
+                                    'response_code' => $addAntrol['data']['metadata']['code'] ?? null,
+                                    'response_msg'  => $addAntrol['data']['metadata']['message'] ?? null,
+                                ]
                             );
 
                             if ($addAntrol['data']['metadata']['code'] == 200) {
