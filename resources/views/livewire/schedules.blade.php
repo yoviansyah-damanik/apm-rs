@@ -1,14 +1,4 @@
-<div class="flex flex-col h-full gap-3" x-data="{
-    activeDate: '{{ $selectedDate }}',
-    offset: 0,
-    visibleCount: 7,
-    dates: @js($dates),
-    get visibleDates() { return this.dates.slice(this.offset, this.offset + this.visibleCount); },
-    get canPrev() { return this.offset > 0; },
-    get canNext() { return this.offset + this.visibleCount < this.dates.length; },
-    prev() { if (this.canPrev) this.offset = Math.max(0, this.offset - this.visibleCount); },
-    next() { if (this.canNext) this.offset = Math.min(this.dates.length - this.visibleCount, this.offset + this.visibleCount); },
-}">
+<div class="flex flex-col h-full gap-3">
 
     {{-- Header --}}
     <div class="px-1 pt-2 shrink-0 text-center">
@@ -17,7 +7,17 @@
     </div>
 
     {{-- Date Navigator --}}
-    <div class="shrink-0">
+    <div class="shrink-0" wire:ignore x-data="{
+        activeDate: '{{ $selectedDate }}',
+        offset: 0,
+        visibleCount: 7,
+        dates: @js($dates),
+        get visibleDates() { return this.dates.slice(this.offset, this.offset + this.visibleCount); },
+        get canPrev() { return this.offset > 0; },
+        get canNext() { return this.offset + this.visibleCount < this.dates.length; },
+        prev() { if (this.canPrev) this.offset = Math.max(0, this.offset - this.visibleCount); },
+        next() { if (this.canNext) this.offset = Math.min(this.dates.length - this.visibleCount, this.offset + this.visibleCount); },
+    }">
         <div class="flex gap-2 h-full p-2">
 
             {{-- Prev --}}
