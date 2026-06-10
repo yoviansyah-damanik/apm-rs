@@ -128,7 +128,7 @@ class Search extends Component
                 ActivityLogService::error('bpjs', 'check_jkn', "Gagal verifikasi peserta BPJS: {$errorMessage}", [
                     'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
                     'kode_booking' => $this->idNumber,
-                    'error_code'   => $errorCode,
+                    'error_code' => $errorCode,
                 ]);
 
                 $this->dispatch('bpjsCheckFailed', [
@@ -157,7 +157,7 @@ class Search extends Component
             ActivityLogService::success('bpjs', 'check_jkn', "Data peserta BPJS berhasil diverifikasi", [
                 'no_rkm_medis' => $this->patient->no_rkm_medis,
                 'kode_booking' => $this->idNumber,
-                'no_kartu'     => $payload['data']['peserta']['noKartu'] ?? null,
+                'no_kartu' => $payload['data']['peserta']['noKartu'] ?? null,
                 'nama_peserta' => $payload['data']['peserta']['nama'] ?? null,
             ]);
 
@@ -173,7 +173,7 @@ class Search extends Component
             ActivityLogService::error('bpjs', 'check_jkn', 'Timeout saat check JKN: ' . $e->getMessage(), [
                 'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
                 'kode_booking' => $this->idNumber,
-                'error'        => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
             $this->dispatch('bpjsCheckFailed', [
                 'code' => 'TIMEOUT',
@@ -184,7 +184,7 @@ class Search extends Component
             ActivityLogService::error('bpjs', 'check_jkn', 'Exception saat check JKN: ' . $e->getMessage(), [
                 'no_rkm_medis' => $this->patient->no_rkm_medis ?? null,
                 'kode_booking' => $this->idNumber,
-                'error'        => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
             $this->dispatch('bpjsCheckFailed', [
                 'code' => 'ERROR',

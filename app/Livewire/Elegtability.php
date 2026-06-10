@@ -161,8 +161,19 @@ class Elegtability extends Component
                     now()->setTimezone('Asia/Jakarta')->format('Y-m-d'),
                 );
 
-                if (isset($updateControl['success']) && $updateControl['success'] === false) {
+                $isAlreadyUpdated = isset($updateControl['data']['metaData']['code'], $updateControl['data']['metaData']['message'])
+                    && $updateControl['data']['metaData']['code'] == 203
+                    && str_contains($updateControl['data']['metaData']['message'], 'Tanggal Yang Sama');
+
+                if (isset($updateControl['success']) && $updateControl['success'] === false && !$isAlreadyUpdated) {
                     $errorMessage = $updateControl['data']['metaData']['message'] ?? 'Koneksi ke server BPJS gagal';
+
+                    ActivityLogService::error('bpjs', 'update_control_number', "Gagal memperbarui rencana kontrol: {$errorMessage}", [
+                        'no_surat' => $this->controlLetter['noSuratKontrol'],
+                        'no_rkm_medis' => $this->mrNumber,
+                        'response_code' => $updateControl['data']['metaData']['code'] ?? null,
+                    ]);
+
                     LivewireAlert::error()
                         ->title("Terjadi kesalahan saat memperbarui tanggal kontrol.")
                         ->text($errorMessage)
@@ -177,6 +188,14 @@ class Elegtability extends Component
                         'nm_dokter_bpjs' => $this->bpjsDoctor->nm_dokter_bpjs,
                         'kd_poli_bpjs' => $this->bpjsPolyclinic->kd_poli_bpjs,
                         'nm_poli_bpjs' => $this->bpjsPolyclinic->nm_poli_bpjs,
+                    ]);
+
+                    ActivityLogService::success('bpjs', 'update_control_number', $isAlreadyUpdated
+                        ? 'Rencana kontrol sudah diterbitkan di tanggal yang sama, suratkontrol lokal diperbarui'
+                        : 'Rencana kontrol berhasil diperbarui ke BPJS', [
+                        'no_surat' => $this->controlLetter['noSuratKontrol'],
+                        'no_rkm_medis' => $this->mrNumber,
+                        'response_code' => $updateControl['data']['metaData']['code'] ?? null,
                     ]);
 
                     LivewireAlert::success()
@@ -622,13 +641,16 @@ class Elegtability extends Component
                     referralData: $referralData,
                     purposeOfVisit: $this->purposeOfVisit
                 );
-                ActivityLogService::log('bpjs', 'antrol_poli',
+                ActivityLogService::log(
+                    'bpjs',
+                    'antrol_poli',
                     $addAntrol['data']['metadata']['code'] == 200 ? 'success' : 'error',
-                    "addQueue [attempt-1] — kode: " . ($addAntrol['data']['metadata']['code'] ?? '?'), [
-                        'no_rawat'      => $register['no_rawat'] ?? null,
-                        'no_rkm_medis'  => $this->mrNumber,
+                    "addQueue [attempt-1] — kode: " . ($addAntrol['data']['metadata']['code'] ?? '?'),
+                    [
+                        'no_rawat' => $register['no_rawat'] ?? null,
+                        'no_rkm_medis' => $this->mrNumber,
                         'response_code' => $addAntrol['data']['metadata']['code'] ?? null,
-                        'response_msg'  => $addAntrol['data']['metadata']['message'] ?? null,
+                        'response_msg' => $addAntrol['data']['metadata']['message'] ?? null,
                     ]
                 );
 
@@ -649,12 +671,15 @@ class Elegtability extends Component
                             isJkn: true
                         );
 
-                        ActivityLogService::log('bpjs', 'antrol_poli',
+                        ActivityLogService::log(
+                            'bpjs',
+                            'antrol_poli',
                             $bookingCodeIsCorrect ? 'success' : 'error',
-                            "checkQueue (duplikat 208) — booking " . ($bookingCodeIsCorrect ? 'valid' : 'konflik'), [
-                                'no_rawat'     => $register['no_rawat'] ?? null,
+                            "checkQueue (duplikat 208) — booking " . ($bookingCodeIsCorrect ? 'valid' : 'konflik'),
+                            [
+                                'no_rawat' => $register['no_rawat'] ?? null,
                                 'no_rkm_medis' => $this->mrNumber,
-                                'is_correct'   => $bookingCodeIsCorrect,
+                                'is_correct' => $bookingCodeIsCorrect,
                             ]
                         );
 
@@ -700,13 +725,16 @@ class Elegtability extends Component
                                 purposeOfVisit: $this->purposeOfVisit
                             );
 
-                            ActivityLogService::log('bpjs', 'antrol_poli',
+                            ActivityLogService::log(
+                                'bpjs',
+                                'antrol_poli',
                                 $addAntrol['data']['metadata']['code'] == 200 ? 'success' : 'error',
-                                "addQueue [attempt-2/retry] — kode: " . ($addAntrol['data']['metadata']['code'] ?? '?'), [
+                                "addQueue [attempt-2/retry] — kode: " . ($addAntrol['data']['metadata']['code'] ?? '?'),
+                                [
                                     'no_rawat_baru' => $newCareNumber,
-                                    'no_rkm_medis'  => $this->mrNumber,
+                                    'no_rkm_medis' => $this->mrNumber,
                                     'response_code' => $addAntrol['data']['metadata']['code'] ?? null,
-                                    'response_msg'  => $addAntrol['data']['metadata']['message'] ?? null,
+                                    'response_msg' => $addAntrol['data']['metadata']['message'] ?? null,
                                 ]
                             );
 
